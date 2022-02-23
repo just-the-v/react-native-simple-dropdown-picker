@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
-  // Animated,
-  StyleSheet, Text, TouchableOpacity, View,
+  Animated, StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
 import FlatListSelector from './FlatListSelector';
 
@@ -29,22 +28,22 @@ export default function DropDownPicker({ resultObject, data, placeholder }) {
   const [isDeployed, setIsDeployed] = useState(false);
   const [result, setResult] = resultObject;
 
-  // const arrowAnim = useRef(new Animated.Value(0)).current;
-  // const rotateDown = () => {
-  //   Animated.timing(arrowAnim, {
-  //     toValue: 3.14159,
-  //     duration: 150,
-  //     useNativeDriver: true,
-  //   }).start();
-  // };
+  const arrowAnim = useRef(new Animated.Value(0)).current;
+  const rotateDown = () => {
+    Animated.timing(arrowAnim, {
+      toValue: 3.14159,
+      duration: 150,
+      useNativeDriver: true,
+    }).start();
+  };
 
-  // const rotateUp = () => {
-  //   Animated.timing(arrowAnim, {
-  //     toValue: 0,
-  //     duration: 150,
-  //     useNativeDriver: true,
-  //   }).start();
-  // };
+  const rotateUp = () => {
+    Animated.timing(arrowAnim, {
+      toValue: 0,
+      duration: 150,
+      useNativeDriver: true,
+    }).start();
+  };
 
   function getInputStyle() {
     let style = styles.input;
@@ -67,14 +66,14 @@ export default function DropDownPicker({ resultObject, data, placeholder }) {
     handleDeployed();
   }, [isDeployed])
 
-  
+
   return (
     <View>
       <TouchableOpacity style={getInputStyle()} onPress={() => setIsDeployed(!isDeployed)}>
         <Text style={styles.result}>{result?.name || result || placeholder}</Text>
-        {/* <Animated.View style={{ transform: [{ rotate: arrowAnim }] }}>
-          <IconFactory kind="polygon" scale={1.3} />
-        </Animated.View> */}
+        <Animated.View style={{ transform: [{ rotate: arrowAnim }] }}>
+          {/*<IconFactory kind="polygon" scale={1.3} />*/}
+        </Animated.View>
       </TouchableOpacity>
       {
         isDeployed

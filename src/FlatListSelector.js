@@ -2,7 +2,7 @@ import {
     FlatList, StyleSheet, Text, TouchableOpacity, View,
   } from 'react-native';
   import React from 'react';
-  
+
   const styles = StyleSheet.create({
     flatList: {
       flexShrink: 0,
@@ -46,7 +46,7 @@ import {
       paddingHorizontal: 20,
     },
   });
-  
+
   export default function FlatListSelector({
     displayableData, setValue, setIsDeployed,
   }) {
@@ -58,7 +58,7 @@ import {
         nestedScrollEnabled
         data={displayableData}
         keyExtractor={(item) => `${item.id || item.name || item}`}
-        renderItem={({ item }) => {
+        renderItem={({ item }) => (
             <TouchableOpacity
             onPress={() => {
               setValue(item?.name || item);
@@ -67,11 +67,10 @@ import {
             style={styles.titleContainer}
           >
             <Text style={styles.title}>
-              {item.name || item}
+              {item?.name || item}
             </Text>
           </TouchableOpacity>
-        }}
+          )}
       />
     );
   }
-  
