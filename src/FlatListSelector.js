@@ -21,7 +21,6 @@ import {
       borderBottomLeftRadius: 20,
     },
     title: {
-      fontFamily: 'Ubuntu',
       fontSize: 16,
       marginLeft: 10,
       maxWidth: '80%',
@@ -41,7 +40,6 @@ import {
       borderRadius: 10,
     },
     headerText: {
-      fontFamily: 'Ubuntu',
       fontSize: 18,
       paddingHorizontal: 20,
     },
