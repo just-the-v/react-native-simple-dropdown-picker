@@ -2,7 +2,8 @@
 
 A simple, and fully customizable drop down picker.
 
-![](screenshots/demo.gif)
+<img src="screenshots/demo.gif" width="25%"/>
+
 # Installation
 
 _Npm_
