@@ -1,13 +1,80 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {
-  Animated, StyleSheet, Text, TouchableOpacity, View,
+  Animated,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import FlatListSelector from './FlatListSelector';
 
+export default function DropDownPicker({resultObject, data, placeholder}) {
+  const [isDeployed, setIsDeployed] = useState(false);
+  const [result, setResult] = resultObject;
+  const arrowAnim = useRef(new Animated.Value(0)).current;
+
+  const arrowTranslated = arrowAnim.interpolate({
+    inputRange: [0, 90],
+    outputRange: ['0deg', '90deg'],
+  });
+
+  function rotateTo(toValue) {
+    Animated.timing(arrowAnim, {
+      toValue,
+      duration: 150,
+      useNativeDriver: true,
+    }).start();
+  }
+
+  function getInputStyle() {
+    let style = styles.input;
+
+    if (isDeployed) {
+      style = {...style, ...styles.inputFocus};
+    }
+    return style;
+  }
+
+  function handleDeployed() {
+    if (isDeployed) {
+      rotateTo(90);
+    } else {
+      rotateTo(0);
+    }
+  }
+
+  useEffect(() => {
+    handleDeployed();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDeployed]);
+
+  return (
+    <View>
+      <TouchableOpacity
+        style={getInputStyle()}
+        onPress={() => setIsDeployed(!isDeployed)}>
+        <Text style={styles.result}>
+          {result?.name || result || placeholder || data[0]}
+        </Text>
+        <Animated.View
+          style={{...styles.icon, transform: [{rotate: arrowTranslated}]}}>
+          <Image source={require('../assets/images/img.png')} />
+        </Animated.View>
+      </TouchableOpacity>
+      {isDeployed && (
+        <FlatListSelector
+          setIsDeployed={setIsDeployed}
+          displayableData={data}
+          setValue={setResult}
+        />
+      )}
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: 'white',
     borderRadius: 40,
     paddingHorizontal: 20,
     height: 40,
@@ -15,6 +82,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
   },
   inputFocus: {
     borderWidth: 1,
@@ -22,69 +90,8 @@ const styles = StyleSheet.create({
   result: {
     fontSize: 17,
   },
+  icon: {
+    width: 30,
+    alignItems: 'center',
+  },
 });
-
-export default function DropDownPicker({ resultObject, data, placeholder }) {
-  const [isDeployed, setIsDeployed] = useState(false);
-  const [result, setResult] = resultObject;
-
-  // const arrowAnim = useRef(new Animated.Value(0)).current;
-  // const rotateDown = () => {
-  //   Animated.timing(arrowAnim, {
-  //     toValue: 3.14159,
-  //     duration: 150,
-  //     useNativeDriver: true,
-  //   }).start();
-  // };
-  //
-  // const rotateUp = () => {
-  //   Animated.timing(arrowAnim, {
-  //     toValue: 0,
-  //     duration: 150,
-  //     useNativeDriver: true,
-  //   }).start();
-  // };
-
-  function getInputStyle() {
-    let style = styles.input;
-
-    if (isDeployed) {
-      style = { ...style, ...styles.inputFocus };
-    }
-    return style;
-  }
-
-  // function handleDeployed() {
-  //   if (isDeployed) {
-  //     rotateDown();
-  //   } else {
-  //     rotateUp();
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   handleDeployed();
-  // }, [isDeployed])
-
-
-  return (
-    <View>
-      <TouchableOpacity style={getInputStyle()} onPress={() => setIsDeployed(!isDeployed)}>
-        <Text style={styles.result}>{result?.name || result || placeholder}</Text>
-        {/*<Animated.View style={{ transform: [{ rotate: arrowAnim }] }}>*/}
-          {/*<IconFactory kind="polygon" scale={1.3} />*/}
-        {/*</Animated.View>*/}
-      </TouchableOpacity>
-      {
-        isDeployed
-        && (
-        <FlatListSelector
-          setIsDeployed={setIsDeployed}
-          displayableData={data}
-          setValue={setResult}
-        />
-        )
-      }
-    </View>
-  );
-}
