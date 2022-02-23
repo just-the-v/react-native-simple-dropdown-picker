@@ -9,9 +9,22 @@ import {
 } from 'react-native';
 import FlatListSelector from './FlatListSelector';
 
-export default function DropDownPicker({resultObject, data, placeholder}) {
+export default function DropDownPicker({
+  result,
+  setResult,
+  data,
+  placeholder,
+  animatedIcon,
+  wrapperStyle,
+  resultTextStyle,
+  inputStyle,
+  focusedInputStyle,
+  flatListStyle,
+  flatListContainerStyle,
+  touchableStyle,
+  textStyle,
+}) {
   const [isDeployed, setIsDeployed] = useState(false);
-  const [result, setResult] = resultObject;
   const arrowAnim = useRef(new Animated.Value(0)).current;
 
   const arrowTranslated = arrowAnim.interpolate({
@@ -28,10 +41,10 @@ export default function DropDownPicker({resultObject, data, placeholder}) {
   }
 
   function getInputStyle() {
-    let style = styles.input;
+    let style = {...styles.input, inputStyle};
 
     if (isDeployed) {
-      style = {...style, ...styles.inputFocus};
+      style = {...style, ...styles.inputFocus, ...focusedInputStyle};
     }
     return style;
   }
@@ -50,16 +63,18 @@ export default function DropDownPicker({resultObject, data, placeholder}) {
   }, [isDeployed]);
 
   return (
-    <View>
+    <View style={{...styles.wrapper, ...wrapperStyle}}>
       <TouchableOpacity
         style={getInputStyle()}
         onPress={() => setIsDeployed(!isDeployed)}>
-        <Text style={styles.result}>
-          {result?.name || result || placeholder || data[0]}
+        <Text style={{...styles.result, ...resultTextStyle}}>
+          {result?.value || result || placeholder || data[0]}
         </Text>
         <Animated.View
           style={{...styles.icon, transform: [{rotate: arrowTranslated}]}}>
-          <Image source={require('../assets/images/img.png')} />
+          {animatedIcon || (
+            <Image source={require('../assets/images/img.png')} />
+          )}
         </Animated.View>
       </TouchableOpacity>
       {isDeployed && (
@@ -67,6 +82,10 @@ export default function DropDownPicker({resultObject, data, placeholder}) {
           setIsDeployed={setIsDeployed}
           displayableData={data}
           setValue={setResult}
+          flatListStyle={flatListStyle}
+          flatListContainerStyle={flatListContainerStyle}
+          touchableStyle={touchableStyle}
+          textStyle={textStyle}
         />
       )}
     </View>
@@ -74,6 +93,7 @@ export default function DropDownPicker({resultObject, data, placeholder}) {
 }
 
 const styles = StyleSheet.create({
+  wrapper: {},
   input: {
     borderRadius: 40,
     paddingHorizontal: 20,
@@ -84,9 +104,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
   },
-  inputFocus: {
-    borderWidth: 1,
-  },
+  inputFocus: {},
   result: {
     fontSize: 17,
   },

@@ -1,6 +1,38 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 
+export default function FlatListSelector({
+  displayableData,
+  setValue,
+  setIsDeployed,
+  flatListStyle,
+  flatListContainerStyle,
+  touchableStyle,
+  textStyle,
+}) {
+  return (
+    <FlatList
+      style={{...styles.flatList, ...flatListStyle}}
+      contentContainerStyle={{...styles.container, ...flatListContainerStyle}}
+      nestedScrollEnabled
+      data={displayableData}
+      keyExtractor={item => `${item.id || item.value || item}`}
+      renderItem={({item}) => (
+        <TouchableOpacity
+          onPress={() => {
+            setValue(item);
+            setIsDeployed(false);
+          }}
+          style={{...styles.titleContainer, ...touchableStyle}}>
+          <Text style={{...styles.title, ...textStyle}}>
+            {item?.value || item}
+          </Text>
+        </TouchableOpacity>
+      )}
+    />
+  );
+}
+
 const styles = StyleSheet.create({
   flatList: {
     flexGrow: 0,
@@ -22,35 +54,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
-  titleAndDotContainer: {
-    paddingHorizontal: 20,
-    marginVertical: 10,
-    flexDirection: 'row',
-  },
 });
-
-export default function FlatListSelector({
-  displayableData,
-  setValue,
-  setIsDeployed,
-}) {
-  return (
-    <FlatList
-      style={styles.flatList}
-      contentContainerStyle={styles.container}
-      nestedScrollEnabled
-      data={displayableData}
-      keyExtractor={item => `${item.id || item.name || item}`}
-      renderItem={({item}) => (
-        <TouchableOpacity
-          onPress={() => {
-            setValue(item?.name || item);
-            setIsDeployed(false);
-          }}
-          style={styles.titleContainer}>
-          <Text style={styles.title}>{item?.name || item}</Text>
-        </TouchableOpacity>
-      )}
-    />
-  );
-}
