@@ -41,7 +41,7 @@ export default function DropDownPicker({
   }
 
   function getInputStyle() {
-    let style = {...styles.input, inputStyle};
+    let style = {...styles.input, ...inputStyle};
 
     if (isDeployed) {
       style = {...style, ...styles.inputFocus, ...focusedInputStyle};
