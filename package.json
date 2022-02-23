@@ -1,0 +1,16 @@
+{
+    "name": "react-native-simple-dropdown-picker",
+    "version": "1.0.0",
+    "license": "MIT",
+    "author": "beeleethebee",
+    "dependencies": {},
+    "peerDependencies": {
+        "react": "*",
+        "react-native": "*"
+    },
+    "main": "src/DropDrownPicker.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/beeleethebee/react-native-simple-dropdown-picker.git"
+      }
+}
