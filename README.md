@@ -2,7 +2,7 @@
 
 A simple, and fully customizable drop down picker.
 
-<img src="screenshots/demo.gif" width="25%"/>
+<img src="screenshots/demo.gif" width="33%"/>
 
 # Installation
 
@@ -20,7 +20,9 @@ yarn add react-native-simple-dropdown-picker
 You can see real example of `DropDownPicker` in the [test app](https://github.com/beeleethebee/react-native-dropdown-picker-test-app)  
 
 ```js
-const SimpleComponent = () => {
+import DropDownPicker from 'react-native-simple-dropdown-picker';
+
+const MySimpleComponent = () => {
 	const [value, setValue] = useState('');
 	const data = ['Hello', 'World'];
 	return (
